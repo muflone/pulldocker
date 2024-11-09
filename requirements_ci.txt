@@ -1,0 +1,5 @@
+-r requirements.txt
+
+flake8~=7.1
+pycodestyle~=2.12
+build~=1.2
