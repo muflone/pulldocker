@@ -18,10 +18,12 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from pulldocker.yaml_parser import YamlParser
+from dataclasses import dataclass
 
 
-class PullDocker():
-    def __init__(self, filename: str):
-        self.filename = filename
-        self.configuration = YamlParser(filename=self.filename)
+@dataclass
+class Profile():
+    name: str
+    status: bool
+    directory: str
+    cache: str = None

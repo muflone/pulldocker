@@ -18,10 +18,31 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from pulldocker.yaml_parser import YamlParser
+import yaml
+
+from pulldocker.profile import Profile
 
 
-class PullDocker():
+class YamlParser(object):
     def __init__(self, filename: str):
-        self.filename = filename
-        self.configuration = YamlParser(filename=self.filename)
+        self.profiles = {}
+        with open(filename, 'r') as file:
+            values = {item['NAME']: item
+                      for item in yaml.load_all(stream=file,
+                                                Loader=yaml.Loader)
+                      if item}
+        # Load profiles
+        for name, values in values.items():
+            self.profiles[name] = Profile(
+                name=name,
+                status=values.get('STATUS', True),
+                directory=values['REPOSITORY_DIR'],
+                cache=values.get('CACHE_DIR'))
+
+    def get_profiles(self) -> list[Profile]:
+        """
+        Return the configuration profiles
+
+        :return: profiles list
+        """
+        return list(self.profiles.values())

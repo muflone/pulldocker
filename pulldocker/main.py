@@ -28,7 +28,9 @@ def main():
     command_line = CommandLineOptions()
     command_line.add_configuration_arguments()
     options = command_line.parse_options()
-    pulldocker = PullDocker()
+    pulldocker = PullDocker(filename=options.configuration)
+    for profile in pulldocker.configuration.get_profiles():
+        print(profile)
 
 
 if __name__ == '__main__':
