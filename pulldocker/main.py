@@ -31,6 +31,32 @@ def main():
     pulldocker = PullDocker(filename=options.configuration)
     for profile in pulldocker.configuration.get_profiles():
         print(profile)
+        if profile.status:
+            repository = profile.repository
+            repository.find_head()
+            hash_initial = repository.get_hash()
+            branch = repository.get_branch()
+            print(repository.get_author(),
+                  repository.get_email(),
+                  repository.get_datetime(),
+                  hash_initial,
+                  repository.get_summary())
+
+            # Execute git pull on each remote
+            remotes = profile.remotes or repository.get_remotes()
+            for remote in remotes:
+                repository.pull(remote=remote,
+                                branch=branch)
+            # Compare hash to detect if new changes arrived
+            repository.find_head()
+            hash_final = repository.get_hash()
+            if hash_initial != hash_final:
+                print(repository.get_author(),
+                      repository.get_email(),
+                      repository.get_datetime(),
+                      hash_final,
+                      repository.get_summary())
+        print()
 
 
 if __name__ == '__main__':

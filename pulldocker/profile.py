@@ -18,6 +18,8 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
+from pulldocker.repository import Repository
+
 
 class Profile():
     def __init__(self,
@@ -27,10 +29,10 @@ class Profile():
                  cache: str = None,
                  remotes: list = None):
         self.name = name
-        self.directory = directory
         self.status = status
         self.cache = cache
         self.remotes = remotes
+        self.repository = Repository(directory=directory)
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('
