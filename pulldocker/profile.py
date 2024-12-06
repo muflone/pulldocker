@@ -24,11 +24,13 @@ class Profile():
                  name: str,
                  status: bool,
                  directory: str,
-                 cache: str = None):
+                 cache: str = None,
+                 remotes: list = None):
         self.name = name
         self.directory = directory
         self.status = status
         self.cache = cache
+        self.remotes = remotes
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('
