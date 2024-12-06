@@ -18,12 +18,20 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
-from dataclasses import dataclass
 
-
-@dataclass
 class Profile():
-    name: str
-    status: bool
-    directory: str
-    cache: str = None
+    def __init__(self,
+                 name: str,
+                 status: bool,
+                 directory: str,
+                 cache: str = None):
+        self.name = name
+        self.directory = directory
+        self.status = status
+        self.cache = cache
+
+    def __repr__(self):
+        return (f'{self.__class__.__name__}('
+                f'name="{self.name}", '
+                f'status={self.status}'
+                ')')
