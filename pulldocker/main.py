@@ -56,6 +56,11 @@ def main():
                       repository.get_datetime(),
                       hash_final,
                       repository.get_summary())
+                for tag_name in repository.get_tags():
+                    tag = repository.get_tag(tag_name)
+                    if tag.hash == hash_final:
+                        # This is the latest tag
+                        print('This is the latest tag:', tag.name)
         print()
 
 
