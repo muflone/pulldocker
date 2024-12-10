@@ -18,6 +18,8 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
+from .tag import Tag
+
 from git import Repo
 
 
@@ -106,3 +108,28 @@ class Repository():
         :param branch: name of the branch
         """
         self._repository.remote(name=remote).pull(refspec=branch)
+
+    def get_tags(self):
+        """
+        Return a list of tag names
+
+        :return: list of tags
+        """
+        return [tag.name for tag in self._repository.tags]
+
+    def get_tag(self,
+                name: str) -> Tag:
+        """
+        Return a Tag object matching the specified tag name
+
+        :param name: name of the tag
+        :return: Tag object
+        """
+        tag = self._repository.tags[name]
+        return Tag(name=tag.name,
+                   hash=tag.commit.hexsha,
+                   author=tag.commit.author.name,
+                   email=tag.commit.author.email,
+                   message=tag.tag.message if tag.tag else None,
+                   date_time=tag.commit.authored_datetime,
+                   summary=tag.commit.summary)
