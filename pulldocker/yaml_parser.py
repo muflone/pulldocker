@@ -43,6 +43,7 @@ class YamlParser(object):
                 compose_file=values.get('COMPOSE_FILE'),
                 detached=values.get('DETACHED', True),
                 build=values.get('BUILD', False),
+                recreate=values.get('RECREATE', False),
             )
 
     def get_profiles(self) -> list[Profile]:

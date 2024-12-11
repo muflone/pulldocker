@@ -34,6 +34,7 @@ class Profile():
                  compose_file: str = None,
                  detached: bool = True,
                  build: bool = False,
+                 recreate: bool = False,
                  ):
         self.name = name
         self.status = status
@@ -45,6 +46,7 @@ class Profile():
         self.compose_file = compose_file
         self.detached = detached
         self.build = build
+        self.recreate = recreate
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('
@@ -64,6 +66,8 @@ class Profile():
             arguments.append('-d')
         if self.build:
             arguments.append('--build')
+        if self.recreate:
+            arguments.append('--force-recreate')
         subprocess.call(
             args=arguments,
             cwd=self.directory
