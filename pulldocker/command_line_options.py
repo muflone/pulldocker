@@ -19,6 +19,7 @@
 ##
 
 import argparse
+import logging
 
 from .constants import APP_NAME, APP_VERSION, APP_DESCRIPTION
 
@@ -30,10 +31,23 @@ class CommandLineOptions(object):
     def __init__(self):
         self.parser = argparse.ArgumentParser(prog=f'{APP_NAME}',
                                               description=APP_DESCRIPTION)
+        self.parser.set_defaults(verbose_level=logging.INFO)
         self.parser.add_argument('-V',
                                  '--version',
                                  action='version',
                                  version=f'{APP_NAME} v{APP_VERSION}')
+        self.parser.add_argument('-v',
+                                 '--verbose',
+                                 dest='verbose_level',
+                                 action='store_const',
+                                 const=logging.DEBUG,
+                                 help='Show diagnostic information messages')
+        self.parser.add_argument('-q',
+                                 '--quiet',
+                                 dest='verbose_level',
+                                 action='store_const',
+                                 const=logging.ERROR,
+                                 help='Show only error messages')
 
     def add_group(self, name: str) -> argparse._ArgumentGroup:
         """

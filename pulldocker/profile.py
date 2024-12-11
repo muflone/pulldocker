@@ -19,6 +19,7 @@
 ##
 
 import datetime
+import logging
 import subprocess
 
 from pulldocker.repository import Repository
@@ -102,6 +103,7 @@ class Profile():
         """
         Execute commands at the beginning
         """
+        logging.debug('Executing commands for section BEGIN')
         self._execute_commands(commands=self.commands_begin,
                                tag=None)
 
@@ -109,6 +111,7 @@ class Profile():
         """
         Execute commands at the end
         """
+        logging.debug('Executing commands for section END')
         self._execute_commands(commands=self.commands_end,
                                tag=None)
 
@@ -118,9 +121,11 @@ class Profile():
         Execute commands from the profile
         """
         # Execute commands before docker compose
+        logging.debug('Executing commands for section BEFORE')
         self._execute_commands(commands=self.commands_before,
                                tag=tag)
         # Execute docker compose command
+        logging.debug('Executing deploy command')
         if self.command:
             arguments = self.command
         else:
@@ -137,5 +142,6 @@ class Profile():
         self._execute_commands(commands=[arguments],
                                tag=tag)
         # Execute commands after docker compose
+        logging.debug('Executing commands for section AFTER')
         self._execute_commands(commands=self.commands_after,
                                tag=tag)
