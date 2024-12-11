@@ -18,6 +18,8 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
+import subprocess
+
 from pulldocker.repository import Repository
 
 
@@ -47,3 +49,18 @@ class Profile():
                 f'name="{self.name}", '
                 f'status={self.status}'
                 ')')
+
+    def execute(self):
+        """
+        Execute docker-compose with the profile arguments
+        """
+        arguments = ['docker', 'compose']
+        if self.compose_file:
+            arguments.extend(['-f', self.compose_file])
+        arguments.append('up')
+        if self.detached:
+            arguments.append('-d')
+        subprocess.call(
+            args=arguments,
+            cwd=self.directory
+        )
