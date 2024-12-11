@@ -38,7 +38,8 @@ class YamlParser(object):
                 status=values.get('STATUS', True),
                 directory=values['REPOSITORY_DIR'],
                 cache=values.get('CACHE_DIR'),
-                remotes=values.get('REMOTES'))
+                remotes=values.get('REMOTES'),
+                tags_regex=values.get('TAGS'))
 
     def get_profiles(self) -> list[Profile]:
         """

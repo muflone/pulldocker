@@ -19,6 +19,8 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
+import re
+
 from pulldocker.command_line_options import CommandLineOptions
 from pulldocker.pulldocker import PullDocker
 
@@ -30,6 +32,7 @@ def main():
     options = command_line.parse_options()
     pulldocker = PullDocker(filename=options.configuration)
     for profile in pulldocker.configuration.get_profiles():
+        print()
         print(profile)
         if profile.status:
             repository = profile.repository
@@ -56,12 +59,19 @@ def main():
                       repository.get_datetime(),
                       hash_final,
                       repository.get_summary())
-                for tag_name in repository.get_tags():
-                    tag = repository.get_tag(tag_name)
-                    if tag.hash == hash_final:
-                        # This is the latest tag
-                        print('This is the latest tag:', tag.name)
-        print()
+                if profile.tags_regex:
+                    # Check the tags
+                    for tag_name in repository.get_tags():
+                        tag = repository.get_tag(tag_name)
+                        if tag.hash == hash_final:
+                            if re.match(profile.tags_regex, tag.name):
+                                # This is the latest tag
+                                print('This is the latest tag:', tag.name)
+                                break
+                    else:
+                        continue
+                # Deploy
+                print('deploy')
 
 
 if __name__ == '__main__':
