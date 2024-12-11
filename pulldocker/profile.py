@@ -36,11 +36,11 @@ class Profile():
                  detached: bool = True,
                  build: bool = False,
                  recreate: bool = False,
-                 command: list[str] = None,
-                 commands_before: list[list[str]] = None,
-                 commands_after: list[list[str]] = None,
-                 commands_begin: list[list[str]] = None,
-                 commands_end: list[list[str]] = None,
+                 command: list[str] | str = None,
+                 commands_before: list[list[str] | str] = None,
+                 commands_after: list[list[str] | str] = None,
+                 commands_begin: list[list[str] | str] = None,
+                 commands_end: list[list[str] | str] = None,
                  ):
         self.name = name
         self.status = status
@@ -65,7 +65,7 @@ class Profile():
                 ')')
 
     def _execute_commands(self,
-                          commands: list[list[str]],
+                          commands: list[list[str] | str],
                           tag: Tag) -> None:
         """
         Execute commands
@@ -86,11 +86,12 @@ class Profile():
 
         for command in commands:
             new_arguments = []
-            for argument in command:
+            for argument in command if isinstance(command, list) else [command]:
                 for key, value in replacements_map.items():
                     argument = argument.replace(key, value if value is not None else '')
                 new_arguments.append(argument)
             subprocess.call(args=new_arguments,
+                            shell=not isinstance(command, list),
                             cwd=self.directory)
 
     def begin(self) -> None:
