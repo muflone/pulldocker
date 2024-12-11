@@ -45,6 +45,7 @@ class YamlParser(object):
                 build=values.get('BUILD', False),
                 recreate=values.get('RECREATE', False),
                 command=values.get('COMMAND'),
+                commands_before=values.get('BEFORE'),
             )
 
     def get_profiles(self) -> list[Profile]:

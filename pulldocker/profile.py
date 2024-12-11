@@ -36,6 +36,7 @@ class Profile():
                  build: bool = False,
                  recreate: bool = False,
                  command: list = None,
+                 commands_before: list = None,
                  ):
         self.name = name
         self.status = status
@@ -49,6 +50,7 @@ class Profile():
         self.build = build
         self.recreate = recreate
         self.command = command
+        self.commands_before = commands_before or []
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('
@@ -58,8 +60,14 @@ class Profile():
 
     def execute(self):
         """
-        Execute docker-compose with the profile arguments
+        Execute commands from the profile
         """
+        # Execute commands before docker compose
+        for command in self.commands_before:
+            arguments = command
+            subprocess.call(args=arguments,
+                            cwd=self.directory)
+        # Execute docker compose command
         if self.command:
             arguments = self.command
         else:
@@ -73,7 +81,5 @@ class Profile():
                 arguments.append('--build')
             if self.recreate:
                 arguments.append('--force-recreate')
-        subprocess.call(
-            args=arguments,
-            cwd=self.directory
-        )
+        subprocess.call(args=arguments,
+                        cwd=self.directory)
