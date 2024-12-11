@@ -71,24 +71,28 @@ class Profile():
         Execute commands
         """
         now = datetime.datetime.now()
-        replacements_map = {
+        replacements = {
             '${DATE}': now.strftime('%Y-%m-%d'),
             '${TIME}': now.strftime('%H:%M:%S'),
         }
         if tag is not None:
-            replacements_map['${TAG}'] = tag.name
-            replacements_map['${TAG_AUTHOR}'] = tag.author
-            replacements_map['${TAG_MESSAGE}'] = tag.message
-            replacements_map['${TAG_SUMMARY}'] = tag.summary
-            replacements_map['${TAG_HASH}'] = tag.hash
-            replacements_map['${TAG_DATE}'] = tag.date_time.strftime('%Y-%m-%d')
-            replacements_map['${TAG_TIME}'] = tag.date_time.strftime('%H:%M:%S')
+            replacements['${TAG}'] = tag.name
+            replacements['${TAG_AUTHOR}'] = tag.author
+            replacements['${TAG_MESSAGE}'] = tag.message
+            replacements['${TAG_SUMMARY}'] = tag.summary
+            replacements['${TAG_HASH}'] = tag.hash
+            replacements['${TAG_DATE}'] = tag.date_time.strftime('%Y-%m-%d')
+            replacements['${TAG_TIME}'] = tag.date_time.strftime('%H:%M:%S')
 
         for command in commands:
             new_arguments = []
-            for argument in command if isinstance(command, list) else [command]:
-                for key, value in replacements_map.items():
-                    argument = argument.replace(key, value if value is not None else '')
+            for argument in (command
+                             if isinstance(command, list)
+                             else [command]):
+                for key, value in replacements.items():
+                    argument = argument.replace(
+                        key,
+                        value if value is not None else '')
                 new_arguments.append(argument)
             subprocess.call(args=new_arguments,
                             shell=not isinstance(command, list),

@@ -32,19 +32,12 @@ def main():
     options = command_line.parse_options()
     pulldocker = PullDocker(filename=options.configuration)
     for profile in pulldocker.configuration.get_profiles():
-        print()
-        print(profile)
         if profile.status:
             profile.begin()
             repository = profile.repository
             repository.find_head()
             hash_initial = repository.get_hash()
             branch = repository.get_branch()
-            print(repository.get_author(),
-                  repository.get_email(),
-                  repository.get_datetime(),
-                  hash_initial,
-                  repository.get_summary())
 
             # Execute git pull on each remote
             remotes = profile.remotes or repository.get_remotes()
@@ -55,11 +48,6 @@ def main():
             repository.find_head()
             hash_final = repository.get_hash()
             if hash_initial != hash_final:
-                print(repository.get_author(),
-                      repository.get_email(),
-                      repository.get_datetime(),
-                      hash_final,
-                      repository.get_summary())
                 if profile.tags_regex:
                     # Check the tags
                     for tag_name in repository.get_tags():

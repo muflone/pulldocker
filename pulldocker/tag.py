@@ -31,4 +31,3 @@ class Tag:
     message: str
     date_time: datetime.datetime
     summary: str
-
