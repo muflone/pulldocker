@@ -40,6 +40,7 @@ class Profile():
                  commands_before: list[list[str]] = None,
                  commands_after: list[list[str]] = None,
                  commands_begin: list[list[str]] = None,
+                 commands_end: list[list[str]] = None,
                  ):
         self.name = name
         self.status = status
@@ -55,6 +56,7 @@ class Profile():
         self.commands_before = commands_before or []
         self.commands_after = commands_after or []
         self.commands_begin = commands_begin or []
+        self.commands_end = commands_end or []
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('
@@ -67,6 +69,16 @@ class Profile():
         Execute commands at the beginning
         """
         for command in self.commands_begin:
+            arguments = self._process_arguments(arguments=command,
+                                                tag=None)
+            subprocess.call(args=arguments,
+                            cwd=self.directory)
+
+    def end(self):
+        """
+        Execute commands at the end
+        """
+        for command in self.commands_end:
             arguments = self._process_arguments(arguments=command,
                                                 tag=None)
             subprocess.call(args=arguments,

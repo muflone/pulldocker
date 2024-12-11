@@ -74,6 +74,7 @@ def main():
                     tag = None
                 # Deploy passing the tag object
                 profile.execute(tag=tag)
+            profile.end()
 
 
 if __name__ == '__main__':
