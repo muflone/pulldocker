@@ -39,6 +39,7 @@ class Profile():
                  command: list[str] = None,
                  commands_before: list[list[str]] = None,
                  commands_after: list[list[str]] = None,
+                 commands_begin: list[list[str]] = None,
                  ):
         self.name = name
         self.status = status
@@ -53,12 +54,23 @@ class Profile():
         self.command = command
         self.commands_before = commands_before or []
         self.commands_after = commands_after or []
+        self.commands_begin = commands_begin or []
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('
                 f'name="{self.name}", '
                 f'status={self.status}'
                 ')')
+
+    def begin(self):
+        """
+        Execute commands at the beginning
+        """
+        for command in self.commands_begin:
+            arguments = self._process_arguments(arguments=command,
+                                                tag=None)
+            subprocess.call(args=arguments,
+                            cwd=self.directory)
 
     def execute(self,
                 tag: Tag):
@@ -107,16 +119,18 @@ class Profile():
         result = []
         now = datetime.datetime.now()
         replacements_map = {
-            '${TAG}': tag.name,
-            '${TAG_AUTHOR}': tag.author,
-            '${TAG_MESSAGE}': tag.message,
-            '${TAG_SUMMARY}': tag.summary,
-            '${TAG_HASH}': tag.hash,
-            '${TAG_DATE}': tag.date_time.strftime('%Y-%m-%d'),
-            '${TAG_TIME}': tag.date_time.strftime('%H:%M:%S'),
             '${DATE}': now.strftime('%Y-%m-%d'),
             '${TIME}': now.strftime('%H:%M:%S'),
         }
+        if tag is not None:
+            replacements_map['${TAG}'] = tag.name
+            replacements_map['${TAG_AUTHOR}'] = tag.author
+            replacements_map['${TAG_MESSAGE}'] = tag.message
+            replacements_map['${TAG_SUMMARY}'] = tag.summary
+            replacements_map['${TAG_HASH}'] = tag.hash
+            replacements_map['${TAG_DATE}'] = tag.date_time.strftime('%Y-%m-%d')
+            replacements_map['${TAG_TIME}'] = tag.date_time.strftime('%H:%M:%S')
+
         for argument in arguments:
             for key, value in replacements_map.items():
                 argument = argument.replace(key, value if value is not None else '')

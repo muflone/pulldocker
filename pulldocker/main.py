@@ -35,6 +35,7 @@ def main():
         print()
         print(profile)
         if profile.status:
+            profile.begin()
             repository = profile.repository
             repository.find_head()
             hash_initial = repository.get_hash()
