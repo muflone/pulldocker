@@ -31,15 +31,15 @@ class Profile():
                  status: bool,
                  directory: str,
                  cache: str = None,
-                 remotes: list = None,
+                 remotes: list[str] = None,
                  tags_regex: str = None,
                  compose_file: str = None,
                  detached: bool = True,
                  build: bool = False,
                  recreate: bool = False,
-                 command: list = None,
-                 commands_before: list = None,
-                 commands_after: list = None,
+                 command: list[str] = None,
+                 commands_before: list[list[str]] = None,
+                 commands_after: list[list[str]] = None,
                  ):
         self.name = name
         self.status = status
