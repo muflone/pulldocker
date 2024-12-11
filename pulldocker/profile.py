@@ -28,13 +28,17 @@ class Profile():
                  directory: str,
                  cache: str = None,
                  remotes: list = None,
-                 tags_regex: str = None):
+                 tags_regex: str = None,
+                 compose_file: str = None,
+                 ):
         self.name = name
         self.status = status
         self.cache = cache
         self.remotes = remotes
+        self.directory = directory
         self.repository = Repository(directory=directory)
         self.tags_regex = '.*' if tags_regex == '*' else tags_regex
+        self.compose_file = compose_file
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('

@@ -20,6 +20,7 @@
 ##
 
 import re
+import subprocess
 
 from pulldocker.command_line_options import CommandLineOptions
 from pulldocker.pulldocker import PullDocker
@@ -72,6 +73,15 @@ def main():
                         continue
                 # Deploy
                 print('deploy')
+                arguments = ['docker', 'compose']
+                if profile.compose_file:
+                    arguments.extend(['-f', profile.compose_file])
+                arguments.append('up')
+                arguments.append('-d')
+                subprocess.call(
+                    args=arguments,
+                    cwd=profile.directory
+                )
 
 
 if __name__ == '__main__':
