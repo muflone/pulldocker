@@ -64,71 +64,12 @@ class Profile():
                 f'status={self.status}'
                 ')')
 
-    def begin(self):
+    def _execute_commands(self,
+                          commands: list[list[str]],
+                          tag: Tag) -> None:
         """
-        Execute commands at the beginning
+        Execute commands
         """
-        for command in self.commands_begin:
-            arguments = self._process_arguments(arguments=command,
-                                                tag=None)
-            subprocess.call(args=arguments,
-                            cwd=self.directory)
-
-    def end(self):
-        """
-        Execute commands at the end
-        """
-        for command in self.commands_end:
-            arguments = self._process_arguments(arguments=command,
-                                                tag=None)
-            subprocess.call(args=arguments,
-                            cwd=self.directory)
-
-    def execute(self,
-                tag: Tag):
-        """
-        Execute commands from the profile
-        """
-        # Execute commands before docker compose
-        for command in self.commands_before:
-            arguments = self._process_arguments(arguments=command,
-                                                tag=tag)
-            subprocess.call(args=arguments,
-                            cwd=self.directory)
-        # Execute docker compose command
-        if self.command:
-            arguments = self.command
-        else:
-            arguments = ['docker', 'compose']
-            if self.compose_file:
-                arguments.extend(['-f', self.compose_file])
-            arguments.append('up')
-            if self.detached:
-                arguments.append('-d')
-            if self.build:
-                arguments.append('--build')
-            if self.recreate:
-                arguments.append('--force-recreate')
-        subprocess.call(args=arguments,
-                        cwd=self.directory)
-        # Execute commands after docker compose
-        for command in self.commands_after:
-            arguments = self._process_arguments(arguments=command,
-                                                tag=tag)
-            subprocess.call(args=arguments,
-                            cwd=self.directory)
-
-    def _process_arguments(self,
-                           arguments: list[str],
-                           tag: Tag
-                           ) -> list[str]:
-        """
-        Process a list of arguments by adding the tag information
-        :param arguments: arguments list
-        :param tag: tag object
-        :return: final arguments list
-        """
-        result = []
         now = datetime.datetime.now()
         replacements_map = {
             '${DATE}': now.strftime('%Y-%m-%d'),
@@ -143,8 +84,53 @@ class Profile():
             replacements_map['${TAG_DATE}'] = tag.date_time.strftime('%Y-%m-%d')
             replacements_map['${TAG_TIME}'] = tag.date_time.strftime('%H:%M:%S')
 
-        for argument in arguments:
-            for key, value in replacements_map.items():
-                argument = argument.replace(key, value if value is not None else '')
-            result.append(argument)
-        return result
+        for command in commands:
+            new_arguments = []
+            for argument in command:
+                for key, value in replacements_map.items():
+                    argument = argument.replace(key, value if value is not None else '')
+                new_arguments.append(argument)
+            subprocess.call(args=new_arguments,
+                            cwd=self.directory)
+
+    def begin(self) -> None:
+        """
+        Execute commands at the beginning
+        """
+        self._execute_commands(commands=self.commands_begin,
+                               tag=None)
+
+    def end(self) -> None:
+        """
+        Execute commands at the end
+        """
+        self._execute_commands(commands=self.commands_end,
+                               tag=None)
+
+    def execute(self,
+                tag: Tag) -> None:
+        """
+        Execute commands from the profile
+        """
+        # Execute commands before docker compose
+        self._execute_commands(commands=self.commands_before,
+                               tag=tag)
+        # Execute docker compose command
+        if self.command:
+            arguments = self.command
+        else:
+            arguments = ['docker', 'compose']
+            if self.compose_file:
+                arguments.extend(['-f', self.compose_file])
+            arguments.append('up')
+            if self.detached:
+                arguments.append('-d')
+            if self.build:
+                arguments.append('--build')
+            if self.recreate:
+                arguments.append('--force-recreate')
+        self._execute_commands(commands=[arguments],
+                               tag=tag)
+        # Execute commands after docker compose
+        self._execute_commands(commands=self.commands_after,
+                               tag=tag)
