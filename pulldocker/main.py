@@ -77,7 +77,8 @@ def main():
                 if profile.compose_file:
                     arguments.extend(['-f', profile.compose_file])
                 arguments.append('up')
-                arguments.append('-d')
+                if profile.detached:
+                    arguments.append('-d')
                 subprocess.call(
                     args=arguments,
                     cwd=profile.directory

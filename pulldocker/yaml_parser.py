@@ -41,6 +41,7 @@ class YamlParser(object):
                 remotes=values.get('REMOTES'),
                 tags_regex=values.get('TAGS'),
                 compose_file=values.get('COMPOSE_FILE'),
+                detached=values.get('DETACHED', True),
             )
 
     def get_profiles(self) -> list[Profile]:

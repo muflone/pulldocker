@@ -30,6 +30,7 @@ class Profile():
                  remotes: list = None,
                  tags_regex: str = None,
                  compose_file: str = None,
+                 detached: bool = True,
                  ):
         self.name = name
         self.status = status
@@ -39,6 +40,7 @@ class Profile():
         self.repository = Repository(directory=directory)
         self.tags_regex = '.*' if tags_regex == '*' else tags_regex
         self.compose_file = compose_file
+        self.detached = detached
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('
