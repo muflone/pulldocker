@@ -33,6 +33,7 @@ class Profile():
                  tags_regex: str = None,
                  compose_file: str = None,
                  detached: bool = True,
+                 build: bool = False,
                  ):
         self.name = name
         self.status = status
@@ -43,6 +44,7 @@ class Profile():
         self.tags_regex = '.*' if tags_regex == '*' else tags_regex
         self.compose_file = compose_file
         self.detached = detached
+        self.build = build
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('
@@ -60,6 +62,8 @@ class Profile():
         arguments.append('up')
         if self.detached:
             arguments.append('-d')
+        if self.build:
+            arguments.append('--build')
         subprocess.call(
             args=arguments,
             cwd=self.directory
