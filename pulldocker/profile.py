@@ -30,7 +30,6 @@ class Profile():
                  name: str,
                  status: bool,
                  directory: str,
-                 cache: str = None,
                  remotes: list[str] = None,
                  tags_regex: str = None,
                  compose_file: str = None,
@@ -43,7 +42,6 @@ class Profile():
                  ):
         self.name = name
         self.status = status
-        self.cache = cache
         self.remotes = remotes
         self.directory = directory
         self.repository = Repository(directory=directory)
