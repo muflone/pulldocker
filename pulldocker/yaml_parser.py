@@ -44,6 +44,7 @@ class YamlParser(object):
                 detached=values.get('DETACHED', True),
                 build=values.get('BUILD', False),
                 recreate=values.get('RECREATE', False),
+                command=values.get('COMMAND'),
             )
 
     def get_profiles(self) -> list[Profile]:

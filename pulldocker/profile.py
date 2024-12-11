@@ -35,6 +35,7 @@ class Profile():
                  detached: bool = True,
                  build: bool = False,
                  recreate: bool = False,
+                 command: list = None,
                  ):
         self.name = name
         self.status = status
@@ -47,6 +48,7 @@ class Profile():
         self.detached = detached
         self.build = build
         self.recreate = recreate
+        self.command = command
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('
@@ -58,16 +60,19 @@ class Profile():
         """
         Execute docker-compose with the profile arguments
         """
-        arguments = ['docker', 'compose']
-        if self.compose_file:
-            arguments.extend(['-f', self.compose_file])
-        arguments.append('up')
-        if self.detached:
-            arguments.append('-d')
-        if self.build:
-            arguments.append('--build')
-        if self.recreate:
-            arguments.append('--force-recreate')
+        if self.command:
+            arguments = self.command
+        else:
+            arguments = ['docker', 'compose']
+            if self.compose_file:
+                arguments.extend(['-f', self.compose_file])
+            arguments.append('up')
+            if self.detached:
+                arguments.append('-d')
+            if self.build:
+                arguments.append('--build')
+            if self.recreate:
+                arguments.append('--force-recreate')
         subprocess.call(
             args=arguments,
             cwd=self.directory
