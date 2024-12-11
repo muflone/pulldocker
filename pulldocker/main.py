@@ -65,13 +65,14 @@ def main():
                         tag = repository.get_tag(tag_name)
                         if tag.hash == hash_final:
                             if re.match(profile.tags_regex, tag.name):
-                                # This is the latest tag
-                                print('This is the latest tag:', tag.name)
+                                # This tag matches the latest commit
                                 break
                     else:
                         continue
-                # Deploy
-                profile.execute()
+                else:
+                    tag = None
+                # Deploy passing the tag object
+                profile.execute(tag=tag)
 
 
 if __name__ == '__main__':

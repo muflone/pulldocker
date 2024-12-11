@@ -18,9 +18,11 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##
 
+import datetime
 import subprocess
 
 from pulldocker.repository import Repository
+from pulldocker.tag import Tag
 
 
 class Profile():
@@ -60,13 +62,15 @@ class Profile():
                 f'status={self.status}'
                 ')')
 
-    def execute(self):
+    def execute(self,
+                tag: Tag):
         """
         Execute commands from the profile
         """
         # Execute commands before docker compose
         for command in self.commands_before:
-            arguments = command
+            arguments = self._process_arguments(arguments=command,
+                                                tag=tag)
             subprocess.call(args=arguments,
                             cwd=self.directory)
         # Execute docker compose command
@@ -87,6 +91,36 @@ class Profile():
                         cwd=self.directory)
         # Execute commands after docker compose
         for command in self.commands_after:
-            arguments = command
+            arguments = self._process_arguments(arguments=command,
+                                                tag=tag)
             subprocess.call(args=arguments,
                             cwd=self.directory)
+
+    def _process_arguments(self,
+                           arguments: list[str],
+                           tag: Tag
+                           ) -> list[str]:
+        """
+        Process a list of arguments by adding the tag information
+        :param arguments: arguments list
+        :param tag: tag object
+        :return: final arguments list
+        """
+        result = []
+        now = datetime.datetime.now()
+        replacements_map = {
+            '${TAG}': tag.name,
+            '${TAG_AUTHOR}': tag.author,
+            '${TAG_MESSAGE}': tag.message,
+            '${TAG_SUMMARY}': tag.summary,
+            '${TAG_HASH}': tag.hash,
+            '${TAG_DATE}': tag.date_time.strftime('%Y-%m-%d'),
+            '${TAG_TIME}': tag.date_time.strftime('%H:%M:%S'),
+            '${DATE}': now.strftime('%Y-%m-%d'),
+            '${TIME}': now.strftime('%H:%M:%S'),
+        }
+        for argument in arguments:
+            for key, value in replacements_map.items():
+                argument = argument.replace(key, value if value is not None else '')
+            result.append(argument)
+        return result
