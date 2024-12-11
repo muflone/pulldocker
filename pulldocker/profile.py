@@ -37,6 +37,7 @@ class Profile():
                  recreate: bool = False,
                  command: list = None,
                  commands_before: list = None,
+                 commands_after: list = None,
                  ):
         self.name = name
         self.status = status
@@ -51,6 +52,7 @@ class Profile():
         self.recreate = recreate
         self.command = command
         self.commands_before = commands_before or []
+        self.commands_after = commands_after or []
 
     def __repr__(self):
         return (f'{self.__class__.__name__}('
@@ -83,3 +85,8 @@ class Profile():
                 arguments.append('--force-recreate')
         subprocess.call(args=arguments,
                         cwd=self.directory)
+        # Execute commands after docker compose
+        for command in self.commands_after:
+            arguments = command
+            subprocess.call(args=arguments,
+                            cwd=self.directory)
