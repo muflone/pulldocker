@@ -7,8 +7,8 @@ python:
 install:
   - pip install -r requirements_ci.txt
 script:
-  - python -m compileall pixelcolor
-  - python -m flake8 pixelcolor
+  - python -m compileall pulldocker
+  - python -m flake8 pulldocker
   - python -m build --outdir=dist .
   - python -m pip install --verbose dist/*.whl
   - python -m pip list
