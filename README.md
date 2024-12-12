@@ -2,6 +2,8 @@
 
 [![Travis CI Build Status](https://img.shields.io/travis/com/muflone/pulldocker/main.svg)](https://www.travis-ci.com/github/muflone/pulldocker)
 [![CircleCI Build Status](https://img.shields.io/circleci/project/github/muflone/pulldocker/main.svg)](https://circleci.com/gh/muflone/pulldocker)
+[![PyPI - Version](https://img.shields.io/pypi/v/PullDocker.svg)](https://pypi.org/project/PullDocker/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/PullDocker.svg)](https://pypi.org/project/PullDocker/)
 
 **Description:** Watch git repositories for Docker compose configuration changes
 
@@ -24,7 +26,7 @@ updates or a new tag is made.
 
 ## System Requirements
 
-* Python 3.x
+* Python >= 3.10
 * PyYAML 6.0.x (https://pypi.org/project/PyYAML/)
 * GitPython 3.1.x (https://pypi.org/project/GitPython/)
 
