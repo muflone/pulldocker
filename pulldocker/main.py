@@ -26,19 +26,12 @@ from pulldocker.command_line_options import CommandLineOptions
 from pulldocker.pulldocker import PullDocker
 
 
-def main():
-    # Get command-line options
-    command_line = CommandLineOptions()
-    command_line.add_configuration_arguments()
-    options = command_line.parse_options()
-    logging.basicConfig(level=options.verbose_level,
-                        format='%(asctime)s '
-                               '%(levelname)-8s '
-                               '%(filename)-15s '
-                               'line: %(lineno)-5d '
-                               '%(funcName)-20s '
-                               '%(message)s')
-    pulldocker = PullDocker(filename=options.configuration)
+def check_profiles(pulldocker: PullDocker) -> None:
+    """
+    Check the profiles from the PullDocker object
+
+    :param pulldocker: PullDocker object for a configuration file
+    """
     for profile in pulldocker.configuration.get_profiles():
         logging.info(f'Checking profile {profile.name}')
         if profile.status:
@@ -81,6 +74,23 @@ def main():
             profile.end()
         else:
             logging.debug(f'Skipping disabled profile {profile.name}')
+
+
+def main():
+    # Get command-line options
+    command_line = CommandLineOptions()
+    command_line.add_configuration_arguments()
+    command_line.add_configuration_watch()
+    options = command_line.parse_options()
+    logging.basicConfig(level=options.verbose_level,
+                        format='%(asctime)s '
+                               '%(levelname)-8s '
+                               '%(filename)-15s '
+                               'line: %(lineno)-5d '
+                               '%(funcName)-20s '
+                               '%(message)s')
+    pulldocker = PullDocker(filename=options.configuration)
+    check_profiles(pulldocker)
 
 
 if __name__ == '__main__':
