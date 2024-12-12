@@ -68,6 +68,22 @@ class CommandLineOptions(object):
                            type=str,
                            help='configuration file')
 
+    def add_configuration_watch(self) -> None:
+        """
+        Add configuration command-line options
+        """
+        group = self.add_group('Watch mode')
+        group.add_argument('--watch',
+                           required=False,
+                           action='store_true',
+                           default=False,
+                           help='Watch for changes')
+        group.add_argument('--sleep',
+                           required=False,
+                           type=int,
+                           default=60,
+                           help='Sleep time while watching')
+
     def parse_options(self) -> argparse.Namespace:
         """
         Parse command-line options

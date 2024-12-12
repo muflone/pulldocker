@@ -36,7 +36,10 @@ PullDocker is a command line utility and it requires some arguments to be
 passed:
 
 ```
-pulldocker --configuration <YAML FILE> [--verbose] [--quiet]
+pulldocker
+  --configuration <YAML FILE>
+  [--verbose | --quiet]
+  [--watch] [--sleep <SECONDS>]
 ```
 
 The argument `--configuration` refers to a YAML configuration file containing
@@ -46,6 +49,12 @@ The argument `--verbose` will show additional debug messages for diagnostic
 purposes.
 
 The argument `--quiet` will hide every diagnostic messages showing only errors.
+
+The argument `--watch` will enable the watch mode, continuously checking the
+repository for changes.
+
+The argument `--sleep` can specify a number of seconds to await in watch mode
+between each iteration.
 
 ## YAML Configuration specifications
 

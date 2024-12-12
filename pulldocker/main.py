@@ -21,6 +21,7 @@
 
 import logging
 import re
+import time
 
 from pulldocker.command_line_options import CommandLineOptions
 from pulldocker.pulldocker import PullDocker
@@ -90,7 +91,16 @@ def main():
                                '%(funcName)-20s '
                                '%(message)s')
     pulldocker = PullDocker(filename=options.configuration)
-    check_profiles(pulldocker)
+    if options.watch:
+        # Watch (continuous check) mode
+        logging.info(f'Monitoring repositories every {options.sleep} seconds')
+        while True:
+            check_profiles(pulldocker)
+            logging.debug(f'Sleeping for {options.sleep} seconds...')
+            time.sleep(options.sleep)
+    else:
+        # Single check
+        check_profiles(pulldocker)
 
 
 if __name__ == '__main__':
