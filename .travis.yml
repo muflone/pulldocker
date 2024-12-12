@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.10"
+  - "3.11"
+  - "3.12"
+install:
+  - pip install -r requirements_ci.txt
+script:
+  - python -m compileall pixelcolor
+  - python -m flake8 pixelcolor
+  - python -m build --outdir=dist .
+  - python -m pip install --verbose dist/*.whl
+  - python -m pip list
+  - python -m pip freeze
+  - ls -laR .
+  - python -m pip uninstall --yes --verbose pulldocker
