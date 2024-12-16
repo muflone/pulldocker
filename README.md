@@ -214,7 +214,8 @@ to the matching tag used:
 
 - `${TAG}`: tag name
 - `${TAG_HASH}`: commit hash for the matching tag
-- `${TAG_AUTHOR}`: commit author for the matching tag
+- `${TAG_AUTHOR}`: commit author name for the matching tag
+- `${TAG_EMAIL}`: commit author email for the matching tag
 - `${TAG_MESSAGE}`: tag message
 - `${TAG_SUMMARY}`: commit message for the matching tag
 - `${TAG_DATE}`: tag date with the format YYYY-MM-DD

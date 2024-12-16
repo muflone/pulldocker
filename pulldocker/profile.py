@@ -79,6 +79,7 @@ class Profile():
         if tag is not None:
             replacements['${TAG}'] = tag.name
             replacements['${TAG_AUTHOR}'] = tag.author
+            replacements['${TAG_EMAIL}'] = tag.email
             replacements['${TAG_MESSAGE}'] = tag.message
             replacements['${TAG_SUMMARY}'] = tag.summary
             replacements['${TAG_HASH}'] = tag.hash
