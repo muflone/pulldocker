@@ -54,6 +54,7 @@ def check_profiles(pulldocker: PullDocker) -> None:
             hash_final = repository.get_hash()
             if hash_initial != hash_final:
                 logging.debug(f'New commit with hash {hash_final}')
+                tag = None
                 if profile.tags_regex:
                     # Check the tags
                     for tag_name in repository.get_tags():
@@ -63,11 +64,9 @@ def check_profiles(pulldocker: PullDocker) -> None:
                                 # This tag matches the latest commit
                                 logging.debug(f'Found valid tag {tag.name}')
                                 break
-                    else:
-                        logging.debug(f'Skipping tag {tag.name}')
-                        continue
-                else:
-                    tag = None
+                        else:
+                            logging.debug(f'Skipping tag {tag.name}')
+                            continue
                 # Deploy passing the tag object
                 logging.info(f'Making a new deploy for {profile.name}')
                 profile.execute(tag=tag)
