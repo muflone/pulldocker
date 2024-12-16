@@ -36,9 +36,9 @@ def check_profiles(pulldocker: PullDocker) -> None:
     for profile in pulldocker.configuration.get_profiles():
         logging.info(f'Checking profile {profile.name}')
         if profile.status:
-            profile.begin()
             repository = profile.repository
             repository.find_head()
+            profile.begin(repository=repository)
             hash_initial = repository.get_hash()
             logging.debug(f'Initial commit with hash {hash_initial}')
             branch = repository.get_branch()
@@ -69,10 +69,11 @@ def check_profiles(pulldocker: PullDocker) -> None:
                             continue
                 # Deploy passing the tag object
                 logging.info(f'Making a new deploy for {profile.name}')
-                profile.execute(tag=tag)
+                profile.execute(repository=repository,
+                                tag=tag)
             else:
                 logging.debug('No new commits found')
-            profile.end()
+            profile.end(repository=repository)
         else:
             logging.debug(f'Skipping disabled profile {profile.name}')
 

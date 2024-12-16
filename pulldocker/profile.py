@@ -67,14 +67,25 @@ class Profile():
 
     def _execute_commands(self,
                           commands: list[list[str] | str],
+                          repository: Repository,
                           tag: Tag) -> None:
         """
         Execute commands
+
+        :param repository: Repository object
         """
         now = datetime.datetime.now()
         replacements = {
             '${DATE}': now.strftime('%Y-%m-%d'),
             '${TIME}': now.strftime('%H:%M:%S'),
+            '${COMMIT_HASH}': repository.get_hash(),
+            '${COMMIT_DATE}': repository.get_datetime().strftime('%Y-%m-%d'),
+            '${COMMIT_TIME}': repository.get_datetime().strftime('%H:%M:%S'),
+            '${COMMIT_BRANCH}': repository.get_branch(),
+            '${COMMIT_AUTHOR}': repository.get_author(),
+            '${COMMIT_EMAIL}': repository.get_email(),
+            '${COMMIT_MESSAGE}': repository.get_message(),
+            '${COMMIT_SUMMARY}': repository.get_summary(),
         }
         if tag is not None:
             replacements['${TAG}'] = tag.name
@@ -100,30 +111,42 @@ class Profile():
                             shell=not isinstance(command, list),
                             cwd=self.directory)
 
-    def begin(self) -> None:
+    def begin(self,
+              repository: Repository) -> None:
         """
         Execute commands at the beginning
+
+        :param repository: Repository object
         """
         logging.debug('Executing commands for section BEGIN')
         self._execute_commands(commands=self.commands_begin,
+                               repository=repository,
                                tag=None)
 
-    def end(self) -> None:
+    def end(self,
+            repository: Repository) -> None:
         """
         Execute commands at the end
+
+        :param repository: Repository object
         """
         logging.debug('Executing commands for section END')
         self._execute_commands(commands=self.commands_end,
+                               repository=repository,
                                tag=None)
 
     def execute(self,
+                repository: Repository,
                 tag: Tag) -> None:
         """
         Execute commands from the profile
+
+        :param repository: Repository object
         """
         # Execute commands before docker compose
         logging.debug('Executing commands for section BEFORE')
         self._execute_commands(commands=self.commands_before,
+                               repository=repository,
                                tag=tag)
         # Execute docker compose command
         logging.debug('Executing deploy command')
@@ -141,8 +164,10 @@ class Profile():
             if self.recreate:
                 arguments.append('--force-recreate')
         self._execute_commands(commands=[arguments],
+                               repository=repository,
                                tag=tag)
         # Execute commands after docker compose
         logging.debug('Executing commands for section AFTER')
         self._execute_commands(commands=self.commands_after,
+                               repository=repository,
                                tag=tag)

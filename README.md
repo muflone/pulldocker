@@ -207,6 +207,14 @@ variable with its value:
 
 - `${DATE}`: current date with the format YYYY-MM-DD
 - `${TIME}`: current time with the format HH:mm:ss
+- `${COMMIT_HASH}`: latest commit hash
+- `${COMMIT_DATE}`: latest commit date with the format YYYY-MM-DD
+- `${COMMIT_TIME}`: latest commit with the format HH:mm:ss
+- `${COMMIT_BRANCH}`: latest commit branch name
+- `${COMMIT_AUTHOR}`: latest commit author name
+- `${COMMIT_EMAIL}`: latest commit author email
+- `${COMMIT_MESSAGE}`: latest commit message
+- `${COMMIT_SUMMARY}`: latest commit summary
 
 The following variables can only be used for the `COMMAND`, `BEFORE` and
 `AFTER` arguments when the `TAGS` argument is used so their values will refer
