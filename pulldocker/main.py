@@ -48,6 +48,7 @@ def check_profiles(pulldocker: PullDocker) -> None:
             for remote in remotes:
                 repository.pull(remote=remote,
                                 branch=branch)
+                repository.fetch(remote=remote)
             # Compare hash to detect if new changes arrived
             repository.find_head()
             hash_final = repository.get_hash()

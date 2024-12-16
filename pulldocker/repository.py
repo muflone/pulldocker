@@ -109,6 +109,15 @@ class Repository():
         """
         self._repository.remote(name=remote).pull(refspec=branch)
 
+    def fetch(self,
+              remote: str) -> None:
+        """
+        Get the latest metadata from remote
+
+        :param remote: name of the remote
+        """
+        self._repository.remote(name=remote).fetch()
+
     def get_tags(self):
         """
         Return a list of tag names
