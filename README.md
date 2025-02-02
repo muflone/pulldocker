@@ -143,24 +143,25 @@ tags. For example the following: `TAGS: '0\.[1-9]\.*'` will only match the
 tags starting with 0.1.x up to 0.9.x and it would exclude the tags with 0.0.x.
 
 If no tags are specified, any available commit newer than the current commit
-will issue the deploy.
+will issue the deployment.
 
 The `COMPOSE_FILE` argument is used to specify the path for a
 docker-compose.yaml/yml file in the case the file is contained in another
-directory or it has a different name than the default docker-compose.yaml.
+directory, or it has a different name than the default docker-compose.yaml.
 
 The `DETACHED` argument is used to specify a boolean value for running the
 docker compose in detached mode (the default, passing `true`) or without the
 detached mode, by specifying the value `false`.
 
-The `BUILD` argument is used to build the images before starting the deploy.
+The `BUILD` argument is used to build the images before starting the
+deployment.
 
-The `RECREATE` argument is used to force the recreate the containers even if
-the configuration wasn't changed.
+The `RECREATE` argument is used to force the recreation of the containers even
+if the configuration wasn't changed.
 
 The `COMMAND` argument can be used to specify the explicit command for the
-deploy, instead of using `docker compose up`. This command will override any 
-previous `COMPOSE_FILE`, `DETACHED`, `BUILD` arguments.
+deployment, instead of using `docker compose up`. This command will override
+any previous `COMPOSE_FILE`, `DETACHED`, `BUILD`, `RECREATE` arguments.
 
 The `BEGIN` argument can be a list of commands to execute when checking the
 status for the repository, regardless if it has updates or not.
