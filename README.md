@@ -214,6 +214,7 @@ BEGIN:
 The following special variables can be used in any command to replace the
 variable with its value:
 
+- `${NAME}`: repository name in the YAML file
 - `${DATE}`: current date with the format YYYY-MM-DD
 - `${TIME}`: current time with the format HH:mm:ss
 - `${COMMIT_HASH}`: latest commit hash

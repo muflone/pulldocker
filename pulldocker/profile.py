@@ -78,6 +78,7 @@ class Profile():
         """
         now = datetime.datetime.now()
         replacements = {
+            '${NAME}': repository.name,
             '${DATE}': now.strftime('%Y-%m-%d'),
             '${TIME}': now.strftime('%H:%M:%S'),
             '${COMMIT_HASH}': repository.get_hash(),
