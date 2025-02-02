@@ -2,7 +2,7 @@
 #     Project: PullDocker
 # Description: Watch git repositories for Docker compose changes
 #      Author: Fabio Castelli (Muflone) <muflone@muflone.com>
-#   Copyright: 2024 Fabio Castelli
+#   Copyright: 2024-2025 Fabio Castelli
 #     License: GPL-3+
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by

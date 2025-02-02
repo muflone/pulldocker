@@ -7,7 +7,7 @@
 
 **Description:** Watch git repositories for Docker compose configuration changes
 
-**Copyright:** 2024 Fabio Castelli (Muflone) <muflone@muflone.com>
+**Copyright:** 2024-2025 Fabio Castelli (Muflone) <muflone@muflone.com>
 
 **License:** GPL-3+
 
