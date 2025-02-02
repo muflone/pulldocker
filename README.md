@@ -120,6 +120,9 @@ REMOTES:
   - gitlab
 TAGS: '*'
 COMPOSE_FILE: docker/docker-compose.yaml
+COMPOSE_EXEC:
+  - docker
+  - compose
 DETACHED: true
 BUILD: true
 RECREATE: true
@@ -148,6 +151,11 @@ will issue the deployment.
 The `COMPOSE_FILE` argument is used to specify the path for a
 docker-compose.yaml/yml file in the case the file is contained in another
 directory, or it has a different name than the default docker-compose.yaml.
+
+The `COMPOSE_EXEC` argument is used to specify the default `docker compose` to
+execute to deploy the container. This defaults to `docker compose` command but
+any other command can be specified. Please note this is a **list** of strings,
+not a single string.
 
 The `DETACHED` argument is used to specify a boolean value for running the
 docker compose in detached mode (the default, passing `true`) or without the

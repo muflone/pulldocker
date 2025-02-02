@@ -34,6 +34,7 @@ class Profile():
                  remotes: list[str] = None,
                  tags_regex: str = None,
                  compose_file: str = None,
+                 compose_executable: list[str] | str = None,
                  detached: bool = True,
                  build: bool = False,
                  recreate: bool = False,
@@ -50,6 +51,7 @@ class Profile():
         self.repository = Repository(directory=directory)
         self.tags_regex = '.*' if tags_regex == '*' else tags_regex
         self.compose_file = compose_file
+        self.compose_executable = compose_executable
         self.detached = detached
         self.build = build
         self.recreate = recreate
@@ -153,7 +155,15 @@ class Profile():
         if self.command:
             arguments = self.command
         else:
-            arguments = ['docker', 'compose']
+            if self.compose_executable:
+                # Use custom docker compose command
+                if isinstance(self.compose_executable, str):
+                    arguments = [self.compose_executable]
+                else:
+                    arguments = self.compose_executable
+            else:
+                # Use default docker compose command
+                arguments = ['docker', 'compose']
             if self.compose_file:
                 arguments.extend(['-f', self.compose_file])
             arguments.append('up')

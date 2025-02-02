@@ -43,6 +43,7 @@ class YamlParser(object):
                 detached=values.get('DETACHED', True),
                 build=values.get('BUILD', False),
                 recreate=values.get('RECREATE', False),
+                compose_executable=values.get('COMPOSE_EXEC'),
                 command=values.get('COMMAND'),
                 commands_before=values.get('BEFORE'),
                 commands_after=values.get('AFTER'),
