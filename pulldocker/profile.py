@@ -92,6 +92,7 @@ class Profile():
             '${COMMIT_EMAIL}': repository.get_email(),
             '${COMMIT_MESSAGE}': repository.get_message(),
             '${COMMIT_SUMMARY}': repository.get_summary(),
+            '${COMMITS_COUNT}': str(repository.get_commits_count()),
         }
         if tag is not None:
             replacements['${TAG}'] = tag.name

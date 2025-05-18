@@ -98,6 +98,14 @@ class Repository():
         """
         return [remote.name for remote in self._repository.remotes]
 
+    def get_commits_count(self) -> int:
+        """
+        Get the total number of commits in the repository
+    
+        :return: number of commits
+        """
+        return len(list(self._repository.iter_commits()))
+
     def pull(self,
              remote: str,
              branch: str) -> None:

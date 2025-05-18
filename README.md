@@ -230,6 +230,7 @@ variable with its value:
 - `${COMMIT_EMAIL}`: latest commit author email
 - `${COMMIT_MESSAGE}`: latest commit message
 - `${COMMIT_SUMMARY}`: latest commit summary
+- `${COMMITS_COUNT}`: number of commits
 
 The following variables can only be used for the `COMMAND`, `BEFORE` and
 `AFTER` arguments when the `TAGS` argument is used so their values will refer
