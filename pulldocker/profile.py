@@ -38,6 +38,7 @@ class Profile():
                  detached: bool = True,
                  build: bool = False,
                  recreate: bool = False,
+                 progress: bool = True,
                  command: list[str] | str = None,
                  commands_before: list[list[str] | str] = None,
                  commands_after: list[list[str] | str] = None,
@@ -55,6 +56,7 @@ class Profile():
         self.detached = detached
         self.build = build
         self.recreate = recreate
+        self.progress = progress
         self.command = command
         self.commands_before = commands_before or []
         self.commands_after = commands_after or []
@@ -168,6 +170,8 @@ class Profile():
                 arguments = ['docker', 'compose']
             if self.compose_file:
                 arguments.extend(['-f', self.compose_file])
+            if not self.progress:
+                arguments.extend(['--progress', 'quiet'])
             arguments.append('up')
             if self.detached:
                 arguments.append('-d')

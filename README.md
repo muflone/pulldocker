@@ -167,9 +167,13 @@ deployment.
 The `RECREATE` argument is used to force the recreation of the containers even
 if the configuration wasn't changed.
 
+The `PROGRESS` argument is used to enable or disable the progress output
+during the deployment.
+
 The `COMMAND` argument can be used to specify the explicit command for the
 deployment, instead of using `docker compose up`. This command will override
-any previous `COMPOSE_FILE`, `DETACHED`, `BUILD`, `RECREATE` arguments.
+any previous `COMPOSE_FILE`, `DETACHED`, `BUILD`, `RECREATE`, `PROGRESS`
+arguments.
 
 The `BEGIN` argument can be a list of commands to execute when checking the
 status for the repository, regardless if it has updates or not.
