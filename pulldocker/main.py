@@ -74,6 +74,9 @@ def check_profiles(pulldocker: PullDocker) -> None:
                 logging.info(f'Making a new deploy for {profile.name}')
                 profile.execute(repository=repository,
                                 tag=tag)
+                # Execute commands after deployment
+                profile.after(repository=repository,
+                              tag=tag)
             else:
                 logging.debug('No new commits found')
             profile.end(repository=repository)

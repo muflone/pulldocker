@@ -156,6 +156,20 @@ class Profile():
                                repository=repository,
                                tag=tag)
 
+    def after(self,
+              repository: Repository,
+              tag: Tag) -> None:
+        """
+        Execute commands after the deployment
+
+        :param repository: Repository object
+        :param tag: Tag object
+        """
+        logging.debug('Executing commands for section AFTER')
+        self._execute_commands(commands=self.commands_after,
+                               repository=repository,
+                               tag=tag)
+
     def execute(self,
                 repository: Repository,
                 tag: Tag) -> None:
@@ -190,10 +204,5 @@ class Profile():
             if self.recreate:
                 arguments.append('--force-recreate')
         self._execute_commands(commands=[arguments],
-                               repository=repository,
-                               tag=tag)
-        # Execute commands after docker compose
-        logging.debug('Executing commands for section AFTER')
-        self._execute_commands(commands=self.commands_after,
                                repository=repository,
                                tag=tag)
