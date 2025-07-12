@@ -177,8 +177,9 @@ class Profile():
         Execute commands from the profile
 
         :param repository: Repository object
+        :param tag: Tag object
         """
-        # Execute docker compose command
+        # Execute deployment command
         logging.debug('Executing deploy command')
         if self.command:
             arguments = self.command

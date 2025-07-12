@@ -38,6 +38,7 @@ def check_profiles(pulldocker: PullDocker) -> None:
         if profile.status:
             repository = profile.repository
             repository.find_head()
+            # Execute initial commands
             profile.begin(repository=repository)
             hash_initial = repository.get_hash()
             logging.debug(f'Initial commit with hash {hash_initial}')
@@ -79,6 +80,7 @@ def check_profiles(pulldocker: PullDocker) -> None:
                               tag=tag)
             else:
                 logging.debug('No new commits found')
+            # Execute final commands
             profile.end(repository=repository)
         else:
             logging.debug(f'Skipping disabled profile {profile.name}')
