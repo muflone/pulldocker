@@ -67,6 +67,9 @@ def check_profiles(pulldocker: PullDocker) -> None:
                         else:
                             logging.debug(f'Skipping tag {tag.name}')
                             continue
+                # Execute commands before deployment
+                profile.before(repository=repository,
+                               tag=tag)
                 # Deploy passing the tag object
                 logging.info(f'Making a new deploy for {profile.name}')
                 profile.execute(repository=repository,

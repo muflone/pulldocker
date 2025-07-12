@@ -142,6 +142,20 @@ class Profile():
                                repository=repository,
                                tag=None)
 
+    def before(self,
+               repository: Repository,
+               tag: Tag) -> None:
+        """
+        Execute commands before the deployment
+
+        :param repository: Repository object
+        :param tag: Tag object
+        """
+        logging.debug('Executing commands for section BEFORE')
+        self._execute_commands(commands=self.commands_before,
+                               repository=repository,
+                               tag=tag)
+
     def execute(self,
                 repository: Repository,
                 tag: Tag) -> None:
@@ -150,11 +164,6 @@ class Profile():
 
         :param repository: Repository object
         """
-        # Execute commands before docker compose
-        logging.debug('Executing commands for section BEFORE')
-        self._execute_commands(commands=self.commands_before,
-                               repository=repository,
-                               tag=tag)
         # Execute docker compose command
         logging.debug('Executing deploy command')
         if self.command:
