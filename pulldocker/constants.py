@@ -19,7 +19,7 @@
 ##
 
 APP_NAME = 'PullDocker'
-APP_VERSION = '0.4.3'
+APP_VERSION = '0.4.4'
 APP_DESCRIPTION = ('Watch git repositories for Docker compose '
                    'configuration changes')
 APP_DOMAIN = 'pulldocker'
