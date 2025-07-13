@@ -31,10 +31,10 @@ classifiers = [
 pulldocker = 'pulldocker.main:main'
 
 [project.urls]
-homepage = 'http://www.muflone.com/pulldocker/'
-source = 'https://github.com/muflone/pulldocker/'
-issues = 'https://github.com/muflone/pulldocker/issues'
-releases = 'https://github.com/muflone/pulldocker/releases'
+Homepage = 'http://www.muflone.com/pulldocker/'
+Source = 'https://github.com/muflone/pulldocker/'
+Issues = 'https://github.com/muflone/pulldocker/issues'
+Releases = 'https://github.com/muflone/pulldocker/releases'
 
 [tool.setuptools]
 packages = ['pulldocker']
