@@ -141,15 +141,15 @@ END:
   - bash -c 'echo END ${DATE} ${TIME}'
 ```
 
-The `NAME` argument is required for each profile and identifies the profiles.
-Its usage becomes useful on the commands, and it's assigned to the NAME command
-variable (see below).
+The `NAME` argument is required for each repository and identifies the
+repository itself. Its usage becomes useful on the commands, and it's assigned
+to the NAME command variable (see below).
 
 The `STATUS` argument can be a boolean value with `true` or `false` and if set
-to `false` the profile is considered as disabled so it will not be checked or
-updated.
-This could be useful to disable the profile, and still keeping its definition
-in the YAML file.
+to `false` the repository is considered as disabled so it will not be checked
+or updated.
+This could be useful to disable the repository, and still keeping its
+definition in the YAML file.
 
 The `REPOSITORY_DIR` argument is used to specify to git working copy to update
 and to check for updates.
@@ -283,7 +283,7 @@ END:
 ```
 
 The previous commands will output the current date and time, followed by the
-profile name with a fixed width of 15 characters (note the usage of `{NAME}`
+repository name with a fixed width of 15 characters (note the usage of `{NAME}`
 at the end of the printf command).
 
 After that follows the commands' phase (BEGIN, BEFORE, AFTER and END), then
