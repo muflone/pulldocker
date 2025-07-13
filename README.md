@@ -113,6 +113,7 @@ Here follows the complete YAML specifications for using PullDocker:
 
 ```yaml
 NAME: Repository name
+STATUS: true
 REPOSITORY_DIR: <Path where the git repository is cloned and can be pull>
 REMOTES:
   - origin
@@ -126,6 +127,7 @@ COMPOSE_EXEC:
 DETACHED: true
 BUILD: true
 RECREATE: true
+PROGRESS: true
 COMMAND: docker compose -f docker/docker-compose.yaml up -d
 BEGIN:
   - bash -c 'echo BEGIN ${DATE} ${TIME}'
@@ -138,6 +140,22 @@ AFTER:
 END:
   - bash -c 'echo END ${DATE} ${TIME}'
 ```
+
+The `NAME` argument is required for each profile and identifies the profiles.
+Its usage becomes useful on the commands, and it's assigned to the NAME command
+variable (see below).
+
+The `STATUS` argument can be a boolean value with `true` or `false` and if set
+to `false` the profile is considered as disabled so it will not be checked or
+updated.
+This could be useful to disable the profile, and still keeping its definition
+in the YAML file.
+
+The `REPOSITORY_DIR` argument is used to specify to git working copy to update
+and to check for updates.
+
+The `REMOTES` arguments is a list with the remotes to check for updates, as
+previously set in the git directory.
 
 The `TAGS` argument can be used to deploy the update only when the latest
 commit matches a tag. The tag specification can be `'*'` to indicate any tag
