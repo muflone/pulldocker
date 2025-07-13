@@ -3,6 +3,7 @@
 [![Travis CI Build Status](https://img.shields.io/travis/com/muflone/pulldocker/main.svg)](https://www.travis-ci.com/github/muflone/pulldocker)
 [![CircleCI Build Status](https://img.shields.io/circleci/project/github/muflone/pulldocker/main.svg)](https://circleci.com/gh/muflone/pulldocker)
 [![Python 3.10](https://github.com/muflone/pulldocker/actions/workflows/python-3.10.yml/badge.svg)](https://github.com/muflone/pulldocker/actions/workflows/python-3.10.yml)
+[![Python 3.11](https://github.com/muflone/pulldocker/actions/workflows/python-3.11.yml/badge.svg)](https://github.com/muflone/pulldocker/actions/workflows/python-3.11.yml)
 [![PyPI - Version](https://img.shields.io/pypi/v/PullDocker.svg)](https://pypi.org/project/PullDocker/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/PullDocker.svg)](https://pypi.org/project/PullDocker/)
 
