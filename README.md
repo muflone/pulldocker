@@ -199,7 +199,7 @@ their arguments will be used for the next repositories in the same YAML file.
 The `STATUS` argument can be a boolean value with `true` or `false` and if set
 to `false` the repository is considered as disabled so it will not be checked
 or updated.
-This could be useful to disable the repository, and still keeping its
+This could be useful to disable the repository and still keeping its
 definition in the YAML file.
 
 The `REPOSITORY_DIR` argument is used to specify to git working copy to update
