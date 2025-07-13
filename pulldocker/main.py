@@ -37,6 +37,7 @@ def check_profiles(pulldocker: PullDocker) -> None:
         logging.info(f'Checking profile {profile.name}')
         if profile.status:
             repository = profile.repository
+            repository.load()
             repository.find_head()
             # Execute initial commands
             profile.begin(repository=repository)

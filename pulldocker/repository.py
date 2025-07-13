@@ -26,8 +26,12 @@ from git import Repo
 class Repository():
     def __init__(self, directory: str):
         self.directory = directory
+        self._repository = None
 
-        # Load repository
+    def load(self) -> None:
+        """
+        Load the repository
+        """
         self._repository = Repo(self.directory)
 
     def find_head(self) -> None:
