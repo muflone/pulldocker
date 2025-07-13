@@ -13,4 +13,4 @@ license = 'GPL-3.0-or-later'
 Homepage = 'http://www.muflone.com/pulldocker/'
 
 [project.scripts]
-pulldocker = 'pulldocker:main'
+pulldocker = 'pulldocker.main:main'
