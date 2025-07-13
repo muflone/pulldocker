@@ -248,3 +248,45 @@ to the matching tag used:
 - `${TAG_DATE}`: tag date with the format YYYY-MM-DD
 - `${TAG_TIME}`: tag time with the format HH:mm:ss
 
+### Commands output formatting
+
+To get a compact and constant output using the commmands, you can benefit from
+using the printf width specifiers and pass the matching values as variables
+
+```yaml
+BEGIN:
+  - printf '${DATE} ${TIME} %-15s BEGIN  %-4d ${COMMIT_HASH} ${COMMIT_DATE} ${COMMIT_TIME} > ${COMMIT_SUMMARY}\n' '${NAME}' '${COMMITS_COUNT}'
+BEFORE:
+  - printf '${DATE} ${TIME} %-15s BEFORE %-4d ${COMMIT_HASH} ${COMMIT_DATE} ${COMMIT_TIME} > Deploying update...\n' '${NAME}' '${COMMITS_COUNT}'
+AFTER:
+  - printf '${DATE} ${TIME} %-15s AFTER  %-4d ${COMMIT_HASH} ${COMMIT_DATE} ${COMMIT_TIME} > Deployment completed\n' '${NAME}' '${COMMITS_COUNT}'
+END:
+  - printf '${DATE} ${TIME} %-15s END    %-4d ${COMMIT_HASH} ${COMMIT_DATE} ${COMMIT_TIME} > ${COMMIT_SUMMARY}\n' '${NAME}' '${COMMITS_COUNT}'
+```
+
+The previous commands will output the current date and time, followed by the
+profile name with a fixed width of 15 characters (note the usage of `{NAME}`
+at the end of the printf command).
+
+After that follows the commands' phase (BEGIN, BEFORE, AFTER and END), then
+four digits for the commits' count (note the usage of `${COMMITS_COUNT}` at
+the end of the printf command).
+
+Following, you can find the commit hash identifier, date and time and the
+variable length commit summary or a pre-defined text for the `BEFORE` and
+`AFTER` commands phases.
+
+The output will be similar to:
+
+```text
+2025-07-13 03:25:40 REPOSITORY1     BEGIN  22   df2fcc374a2d94fcbf09c881a373029c299766e3 2024-12-05 23:31:50 > Removed secret
+2025-07-13 03:25:41 REPOSITORY1     BEFORE 23   dc7b3fe472382f1ef7cc7d749018f6b213c7bf14 2024-12-05 23:32:17 > Deploying update...
+2025-07-13 03:25:41 REPOSITORY1     AFTER  23   dc7b3fe472382f1ef7cc7d749018f6b213c7bf14 2024-12-05 23:32:17 > Deployment completed
+2025-07-13 03:25:41 REPOSITORY1     END    23   dc7b3fe472382f1ef7cc7d749018f6b213c7bf14 2024-12-05 23:32:17 > Removed secret
+```
+
+For the best results, you could use the `--quiet` command-line option to hide
+all diagnostic messages except the error messages.
+
+You can freely apply any changes to the commands` format to get your desired
+output.
