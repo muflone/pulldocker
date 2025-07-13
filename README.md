@@ -18,7 +18,7 @@
 ## Description
 
 PullDocker is a command line tool monitor a git repository for changes and run
-`docker deploy` (and optionally others commands) when changes are detected.
+`docker deploy` (and optionally other commands) when changes are detected.
 
 This tool comes handy to automate Docker compose deployments on git operations
 (gitops) and can automatically deployments every time a repository receives
@@ -32,8 +32,8 @@ updates or a new tag is made.
 
 ## Usage
 
-PullDocker is a command line utility and it requires some arguments to be
-passed:
+PullDocker is a command line utility, so it requires some arguments to be
+specified when executing it:
 
 ```
 pulldocker
@@ -43,12 +43,12 @@ pulldocker
 ```
 
 The argument `--configuration` refers to a YAML configuration file containing
-repositories specifications (see below).
+repositories' specifications (see below).
 
 The argument `--verbose` will show additional debug messages for diagnostic
 purposes.
 
-The argument `--quiet` will hide every diagnostic messages showing only errors.
+The argument `--quiet` will hide every diagnostic message showing only errors.
 
 The argument `--watch` will enable the watch mode, continuously checking the
 repository for changes.
@@ -79,7 +79,7 @@ REMOTES:
   - origin
 ```
 
-The previous example would monitor the /home/muflone/pulldocker.git repository
+The previous example would monitor the /home/muflone/pulldocker.git repository,
 and it will pull new commits from the remote called `origin`.
 
 Whenever a new commit is found, a new ```docker compose up -d``` command will be
@@ -87,7 +87,7 @@ issued in the repository directory.
 
 ### Multiple repositories specifications
 
-Multiple repositories can be configured in the same YAML file and they will be
+Multiple repositories can be configured in the same YAML file, and they will be
 monitored one after the other, sequentially.
 
 A multi-repository file could be the following:
@@ -107,9 +107,9 @@ REMOTES:
 The first repository will monitor the `origin` remote and the second repository
 will monitor the `github` remote.
 
-### Additional YAML specifications
+### Complete YAML specifications
 
-The following YAML specifications
+Here follows the complete YAML specifications for using PullDocker:
 
 ```yaml
 NAME: Repository name
@@ -142,8 +142,8 @@ END:
 The `TAGS` argument can be used to deploy the update only when the latest
 commit matches a tag. The tag specification can be `'*'` to indicate any tag
 available or a *regex* (Regular expression) can be used to match the available
-tags. For example the following: `TAGS: '0\.[1-9]\.*'` will only match the
-tags starting with 0.1.x up to 0.9.x and it would exclude the tags with 0.0.x.
+tags. For example, the following: `TAGS: '0\.[1-9]\.*'` will only match the
+tags starting with 0.1.x up to 0.9.x, and it would exclude the tags with 0.0.x.
 
 If no tags are specified, any available commit newer than the current commit
 will issue the deployment.
@@ -180,20 +180,20 @@ status for the repository, regardless if it has updates or not.
 Multiple commands can be specified.
 
 The `BEFORE` argument can be a list of commands to execute after checking the
-status for the repository, before the deploy is done if it **has updates**.
+status for the repository, before the deployment is done if it **has updates**.
 Multiple commands can be specified.
 
 The `AFTER` argument can be a list of commands to execute after checking the
-status for the repository, after the deploy is done if it **has updates**.
+status for the repository, after the deployment is done if it **has updates**.
 Multiple commands can be specified.
 
 The `END` argument can be a list of commands to execute after checking the
 status for the repository, regardless if it has updates or not.
 Multiple commands can be specified.
 
-### Commands details
+### Command details
 
-The commands arguments can use both strings (one command per line) or list of
+The commands' arguments can use both strings (one command per line) or list of
 arguments (one argument per line) using the YAML lists syntax.
 
 The following are both valid:
