@@ -22,6 +22,14 @@ import yaml
 
 from pulldocker.profile import Profile
 
+DEFAULT_ATTRIBUTES = {
+    'status': True,
+    'detached': True,
+    'build': False,
+    'recreate': False,
+    'progress': True,
+}
+
 
 class YamlParser(object):
     def __init__(self, filename: str):
@@ -33,17 +41,17 @@ class YamlParser(object):
                       if item}
         # Load profiles
         for name, values in values.items():
-            self.profiles[name] = Profile(
+            profile = Profile(
                 name=name,
-                status=values.get('STATUS', True),
-                directory=values['REPOSITORY_DIR'],
+                status=values.get('STATUS'),
+                directory=values.get('REPOSITORY_DIR'),
                 remotes=values.get('REMOTES'),
                 tags_regex=values.get('TAGS'),
                 compose_file=values.get('COMPOSE_FILE'),
-                detached=values.get('DETACHED', True),
-                build=values.get('BUILD', False),
-                recreate=values.get('RECREATE', False),
-                progress=values.get('PROGRESS', True),
+                detached=values.get('DETACHED'),
+                build=values.get('BUILD'),
+                recreate=values.get('RECREATE'),
+                progress=values.get('PROGRESS'),
                 compose_executable=values.get('COMPOSE_EXEC'),
                 command=values.get('COMMAND'),
                 commands_before=values.get('BEFORE'),
@@ -51,6 +59,11 @@ class YamlParser(object):
                 commands_begin=values.get('BEGIN'),
                 commands_end=values.get('END'),
             )
+            # Set default attributes
+            for attribute, default_value in DEFAULT_ATTRIBUTES.items():
+                if getattr(profile, attribute) is None:
+                    setattr(profile, attribute, default_value)
+            self.profiles[name] = profile
 
     def get_profiles(self) -> list[Profile]:
         """
