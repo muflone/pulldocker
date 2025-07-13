@@ -175,6 +175,9 @@ deployment, instead of using `docker compose up`. This command will override
 any previous `COMPOSE_FILE`, `DETACHED`, `BUILD`, `RECREATE`, `PROGRESS`
 arguments.
 
+To avoid doing any deployment, you can use the command `true` or `false` which
+does nothing and exit immediately after.
+
 The `BEGIN` argument can be a list of commands to execute when checking the
 status for the repository, regardless if it has updates or not.
 Multiple commands can be specified.
