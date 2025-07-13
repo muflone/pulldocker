@@ -107,12 +107,55 @@ REMOTES:
 The first repository will monitor the `origin` remote and the second repository
 will monitor the `github` remote.
 
+### Common repository specifications
+
+To avoid repeating in every repository the same values, you can define a
+special default repository used to specify the default arguments for every
+following repository.
+
+When the `COMMON` argument is set to `true` such repository won't be processed
+but its specifications will be used when another repository lacks the
+specification.
+
+For example, the following configuration will automatically set the default
+arguments for both the repositories REPOSITORY1 and REPOSITORY2.
+
+```yaml
+NAME: DEFAULT
+COMMON: true
+STATUS: true
+REMOTES:
+  - origin
+COMPOSE_FILE: docker-compose.yaml
+BUILD: false
+RECREATE: true
+PROGRESS: false
+---
+NAME: REPOSITORY1
+REPOSITORY_DIR: /home/muflone/repository1
+BUILD: true
+---
+NAME: REPOSITORY2
+REPOSITORY_DIR: /home/muflone/repository2
+RECREATE: false
+```
+
+Both repositories will inherit the arguments from the repository named DEFAULT
+which has the `COMMON` argument set.
+
+In particular the repository named REPOSITORY1 will override to `true` the
+default `BUILD` argument which was set to `false` in the default repository.
+
+Similarly, the repository named REPOSITORY2 will override to `false` the
+default `RECREATE` argument which was set to `true` in the default repository.
+
 ### Complete YAML specifications
 
 Here follows the complete YAML specifications for using PullDocker:
 
 ```yaml
 NAME: Repository name
+COMMON: false
 STATUS: true
 REPOSITORY_DIR: <Path where the git repository is cloned and can be pull>
 REMOTES:
@@ -144,6 +187,14 @@ END:
 The `NAME` argument is required for each repository and identifies the
 repository itself. Its usage becomes useful on the commands, and it's assigned
 to the NAME command variable (see below).
+
+The `COMMON` argument can be set to `true` to define whether the repository
+will be used as a default repository for the next repositories in the same
+file. Any arguments not explicitly set in the repository will be inherited
+from the latest repository having the `COMMON` argument set to `true`.
+
+This means you could have many repositories with `COMMON` set to `true` and
+their arguments will be used for the next repositories in the same YAML file.
 
 The `STATUS` argument can be a boolean value with `true` or `false` and if set
 to `false` the repository is considered as disabled so it will not be checked

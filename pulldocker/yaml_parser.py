@@ -22,6 +22,11 @@ import yaml
 
 from pulldocker.profile import Profile
 
+ATTRIBUTES_FROM_COMMON = ('status', 'directory', 'remotes', 'tags_regex',
+                          'compose_file', 'detached', 'build', 'recreate',
+                          'progress', 'compose_executable', 'command',
+                          'commands_before', 'commands_after',
+                          'commands_begin', 'commands_end')
 DEFAULT_ATTRIBUTES = {
     'status': True,
     'detached': True,
@@ -34,6 +39,7 @@ DEFAULT_ATTRIBUTES = {
 class YamlParser(object):
     def __init__(self, filename: str):
         self.profiles = {}
+        self.common_profile = None
         with open(filename, 'r') as file:
             values = {item['NAME']: item
                       for item in yaml.load_all(stream=file,
@@ -59,11 +65,23 @@ class YamlParser(object):
                 commands_begin=values.get('BEGIN'),
                 commands_end=values.get('END'),
             )
-            # Set default attributes
-            for attribute, default_value in DEFAULT_ATTRIBUTES.items():
-                if getattr(profile, attribute) is None:
-                    setattr(profile, attribute, default_value)
-            self.profiles[name] = profile
+            if values.get('COMMON', False):
+                # Set the profile as the new common profile
+                self.common_profile = profile
+            else:
+                if common_profile := self.common_profile:
+                    # Restore attributes from common profile
+                    for attribute in ATTRIBUTES_FROM_COMMON:
+                        if getattr(profile, attribute) in (None, []):
+                            setattr(profile,
+                                    attribute,
+                                    getattr(common_profile, attribute))
+                # Set default attributes
+                for attribute, default_value in DEFAULT_ATTRIBUTES.items():
+                    if getattr(profile, attribute) is None:
+                        setattr(profile, attribute, default_value)
+                # Save profile
+                self.profiles[name] = profile
 
     def get_profiles(self) -> list[Profile]:
         """
